@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\EmailVerificationController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,6 +23,12 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [RegistrationController::class, 'store'])->name('register.store');
 });
 
-Route::view('/verify-email-notice', 'auth.verify-email-notice')
-    ->middleware('auth')
-    ->name('verify-email-notice');
+Route::middleware('auth')->group(function () {
+    Route::get('/verify-email', [EmailVerificationController::class, 'show'])->name('verification.notice');
+    Route::post('/verify-email', [EmailVerificationController::class, 'verify'])
+        ->middleware('throttle:verification')
+        ->name('verification.verify');
+    Route::post('/verify-email/resend', [EmailVerificationController::class, 'resend'])
+        ->middleware('throttle:verification-resend')
+        ->name('verification.resend');
+});

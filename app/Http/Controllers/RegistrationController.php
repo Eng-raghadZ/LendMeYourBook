@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\EmailVerificationCodeMail;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
+use Throwable;
 
 class RegistrationController extends Controller
 {
@@ -38,9 +41,23 @@ class RegistrationController extends Controller
         $user->verification_expiry = now()->addMinutes(10);
         $user->save();
 
+        try {
+            Mail::to($user->email)->send(new EmailVerificationCodeMail($verificationCode));
+        } catch (Throwable) {
+            $user->verification_code = null;
+            $user->verification_expiry = null;
+            $user->save();
+
+            Auth::login($user);
+            $request->session()->regenerate();
+
+            return redirect()->route('verification.notice')
+                ->withErrors(['email' => __('site.verification.delivery_failed')]);
+        }
+
         Auth::login($user);
         $request->session()->regenerate();
 
-        return redirect()->route('verify-email-notice');
+        return redirect()->route('verification.notice');
     }
 }
