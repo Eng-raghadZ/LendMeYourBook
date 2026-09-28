@@ -6,6 +6,7 @@ use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -39,5 +40,20 @@ class AppServiceProvider extends ServiceProvider
             return Limit::perMinute(3)
                 ->by($request->user()?->getAuthIdentifier() ?? $request->ip());
         });
+
+        RateLimiter::for('password-reset-request', function (Request $request) {
+            return Limit::perMinute(3)->by($this->passwordResetHttpKey($request));
+        });
+
+        RateLimiter::for('password-reset-attempt', function (Request $request) {
+            return Limit::perMinute(10)->by($this->passwordResetHttpKey($request));
+        });
+    }
+
+    private function passwordResetHttpKey(Request $request): string
+    {
+        $email = Str::lower(trim((string) $request->input('email')));
+
+        return hash('sha256', $email.'|'.($request->ip() ?? ''));
     }
 }

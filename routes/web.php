@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\RegistrationController;
-use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\AuthenticatedSessionController;
+use App\Http\Controllers\EmailVerificationController;
+use App\Http\Controllers\PasswordResetController;
+use App\Http\Controllers\RegistrationController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -24,6 +25,14 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login.store');
     Route::get('/register', [RegistrationController::class, 'create'])->name('register');
     Route::post('/register', [RegistrationController::class, 'store'])->name('register.store');
+    Route::get('/forgot-password', [PasswordResetController::class, 'requestForm'])->name('password.request');
+    Route::post('/forgot-password', [PasswordResetController::class, 'sendCode'])
+        ->middleware('throttle:password-reset-request')
+        ->name('password.email');
+    Route::get('/reset-password', [PasswordResetController::class, 'resetForm'])->name('password.reset');
+    Route::post('/reset-password', [PasswordResetController::class, 'reset'])
+        ->middleware('throttle:password-reset-attempt')
+        ->name('password.update');
 });
 
 Route::middleware('auth')->group(function () {

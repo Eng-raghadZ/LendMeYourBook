@@ -7,6 +7,10 @@
         <section class="mx-auto w-full max-w-lg rounded-lg bg-white p-6 shadow-sm sm:p-8">
             <h1 class="text-3xl font-bold text-navy">{{ __('site.login.title') }}</h1>
 
+            @if (session('status'))
+                <p class="mt-4 text-sm text-success" role="status">{{ session('status') }}</p>
+            @endif
+
             <form method="POST" action="{{ route('login.store') }}" class="mt-8 space-y-5">
                 @csrf
 
@@ -48,6 +52,10 @@
                 @error('remember')
                     <p class="text-sm text-red-600">{{ $message }}</p>
                 @enderror
+
+                <a href="{{ route('password.request') }}" class="block text-sm font-medium text-navy hover:underline">
+                    {{ __('site.password_reset.forgot_link') }}
+                </a>
 
                 <button type="submit" class="w-full rounded-md bg-navy px-4 py-3 font-semibold text-white hover:bg-navy-dark">
                     {{ __('site.login.submit') }}
