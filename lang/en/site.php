@@ -29,4 +29,14 @@ return [
         'cooldown' => 'Please wait before requesting another verification code.',
         'delivery_failed' => 'The verification email could not be sent. Please try again later.',
     ],
+    'login' => [
+        'title' => 'Log in',
+        'identifier' => 'Email or username',
+        'password' => 'Password',
+        'remember' => 'Remember me',
+        'submit' => 'Log in',
+        'logout' => 'Log out',
+        'failed' => 'The provided login details are incorrect.',
+        'throttled' => 'Too many login attempts. Please try again shortly.',
+    ],
 ];

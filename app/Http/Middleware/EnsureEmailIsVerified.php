@@ -20,6 +20,7 @@ class EnsureEmailIsVerified
                 'verification.verify',
                 'verification.resend',
                 'lang.switch',
+                'logout',
             )
         ) {
             return $next($request);

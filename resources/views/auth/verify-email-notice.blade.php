@@ -51,6 +51,13 @@
                     {{ __('site.verification.resend_button') }}
                 </button>
             </form>
+
+            <form method="POST" action="{{ route('logout') }}" class="mt-4">
+                @csrf
+                <button type="submit" class="w-full rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    {{ __('site.login.logout') }}
+                </button>
+            </form>
         </section>
     </main>
 @endsection
