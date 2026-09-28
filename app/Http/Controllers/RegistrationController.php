@@ -23,9 +23,17 @@ class RegistrationController extends Controller
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'max:255', 'unique:users,username'],
+            'username' => [
+                'required',
+                'string',
+                'max:255',
+                'regex:/\A[A-Za-z0-9_\-\x{0621}-\x{063A}\x{0641}-\x{064A}]+\z/u',
+                'unique:users,username',
+            ],
             'email' => ['required', 'string', 'email', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ], [
+            'username.regex' => __('site.registration.username_format'),
         ]);
 
         $verificationCode = (string) random_int(100000, 999999);

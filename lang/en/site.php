@@ -7,6 +7,7 @@ return [
         'title' => 'Create an account',
         'name' => 'Full name',
         'username' => 'Username',
+        'username_format' => 'Username may contain only English or Arabic letters, numbers, underscores, and hyphens.',
         'email' => 'Email address',
         'password' => 'Password',
         'password_confirmation' => 'Confirm password',
