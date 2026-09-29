@@ -3,6 +3,23 @@
 return [
     'welcome' => 'Welcome',
     'home' => 'Home',
+    'books' => [
+        'add' => 'Add Book',
+        'intro' => 'Add a book to your lending collection.',
+        'category' => 'Category',
+        'choose_category' => 'Choose a category',
+        'title' => 'Title',
+        'author' => 'Author',
+        'description' => 'Description',
+        'description_help' => 'Optional details about the book.',
+        'total_copies' => 'Total Copies',
+        'rental_price' => 'Rental Price',
+        'rental_price_help' => 'The borrowing fee. Enter 0 for a free rental.',
+        'refundable_deposit' => 'Refundable Deposit',
+        'refundable_deposit_help' => 'The amount returned after the book is safely returned.',
+        'save' => 'Save Book',
+        'created' => 'The book was added successfully.',
+    ],
     'registration' => [
         'title' => 'Create an account',
         'name' => 'Full name',

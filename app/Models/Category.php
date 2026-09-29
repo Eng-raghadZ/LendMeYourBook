@@ -2,9 +2,20 @@
 
 namespace App\Models;
 
+use Database\Factories\CategoryFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
+    /** @use HasFactory<CategoryFactory> */
+    use HasFactory;
+
     protected $fillable = ['name_ar', 'name_en', 'is_active'];
+
+    public function books(): HasMany
+    {
+        return $this->hasMany(Book::class);
+    }
 }
