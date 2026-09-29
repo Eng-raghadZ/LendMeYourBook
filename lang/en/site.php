@@ -19,6 +19,13 @@ return [
         'refundable_deposit_help' => 'The amount returned after the book is safely returned.',
         'save' => 'Save Book',
         'created' => 'The book was added successfully.',
+        'edit' => 'Edit Book',
+        'edit_intro' => 'Update this book and its inventory details.',
+        'save_changes' => 'Save Changes',
+        'updated' => 'The book was updated successfully.',
+        'inactive_marker' => '(Inactive)',
+        'inventory_minimum_help' => 'At least :count copies must remain because they are currently unavailable.',
+        'inventory_minimum_error' => 'Total copies cannot be less than :minimum because :count copies are currently unavailable.',
     ],
     'registration' => [
         'title' => 'Create an account',
