@@ -1,29 +1,32 @@
 <!DOCTYPE html>
 <html
-    lang="{{ str_replace('_', '-', app()->getLocale()) }}"
-    dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}"
->
+  lang="{{ str_replace('_', '-', app()->getLocale()) }}"
+  dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+
 <head>
-    <meta charset="utf-8">
+  <meta charset="utf-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1"
-    >
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1">
 
-    <title>
-        @yield('title', config('app.name', 'Lend-Me-Your-Book'))
-    </title>
+  <title>
+    @yield('title', config('app.name', 'Lend-Me-Your-Book'))
+  </title>
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    @livewireStyles
+  @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+  @livewireStyles
 </head>
 
-<body class="min-h-screen bg-white text-gray-900 antialiased">
+<body class="min-h-screen bg-white text-gray-900 antialiased font-sans">
 
-    @yield('content')
+  @yield('content')
 
-    @livewireScripts
+  @livewireScripts
 </body>
+
 </html>
