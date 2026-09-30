@@ -37,10 +37,13 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+    Route::get('/my-books', [BookController::class, 'mine'])->name('books.mine');
     Route::get('/books/create', [BookController::class, 'create'])->name('books.create');
     Route::post('/books', [BookController::class, 'store'])->name('books.store');
     Route::get('/books/{book}/edit', [BookController::class, 'edit'])->name('books.edit');
     Route::put('/books/{book}', [BookController::class, 'update'])->name('books.update');
+    Route::patch('/books/{book}/archive', [BookController::class, 'archive'])->name('books.archive');
+    Route::patch('/books/{book}/unarchive', [BookController::class, 'unarchive'])->name('books.unarchive');
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
     Route::get('/verify-email', [EmailVerificationController::class, 'show'])->name('verification.notice');
     Route::post('/verify-email', [EmailVerificationController::class, 'verify'])

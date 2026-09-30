@@ -63,8 +63,13 @@ class AddBookTest extends TestCase
 
         $this->actingAs($user)
             ->post(route('books.store'), $this->validBookData($category))
-            ->assertRedirect(route('books.create'))
+            ->assertRedirect(route('books.mine'))
             ->assertSessionHas('status', __('site.books.created'));
+
+        $this->actingAs($user)
+            ->get(route('books.mine'))
+            ->assertOk()
+            ->assertSee(__('site.books.created'));
 
         $book = Book::sole();
 
@@ -87,7 +92,7 @@ class AddBookTest extends TestCase
                 'rental_price' => '0',
                 'refundable_deposit' => '0.01',
             ]))
-            ->assertRedirect(route('books.create'))
+            ->assertRedirect(route('books.mine'))
             ->assertSessionHasNoErrors();
 
         $book = Book::sole();
@@ -172,7 +177,7 @@ class AddBookTest extends TestCase
 
         $this->actingAs($user)
             ->post(route('books.store'), $data)
-            ->assertRedirect(route('books.create'))
+            ->assertRedirect(route('books.mine'))
             ->assertSessionHasNoErrors();
 
         $this->assertNull(Book::sole()->description);
@@ -214,7 +219,7 @@ class AddBookTest extends TestCase
                 'available_copies' => 999,
                 'archived_at' => now(),
             ]))
-            ->assertRedirect(route('books.create'));
+            ->assertRedirect(route('books.mine'));
 
         $book = Book::sole();
 

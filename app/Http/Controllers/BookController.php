@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateBookRequest;
 use App\Models\Book;
 use App\Models\Category;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
@@ -14,6 +15,27 @@ use Illuminate\View\View;
 
 class BookController extends Controller
 {
+    public function mine(Request $request): View
+    {
+        $activeBooks = $request->user()->books()
+            ->with('category')
+            ->whereNull('archived_at')
+            ->orderByDesc('created_at')
+            ->orderByDesc('id')
+            ->paginate(10, ['*'], 'active_page')
+            ->withQueryString();
+
+        $archivedBooks = $request->user()->books()
+            ->with('category')
+            ->whereNotNull('archived_at')
+            ->orderByDesc('archived_at')
+            ->orderByDesc('id')
+            ->paginate(10, ['*'], 'archived_page')
+            ->withQueryString();
+
+        return view('books.mine', compact('activeBooks', 'archivedBooks'));
+    }
+
     public function create(): View
     {
         $categories = Category::query()
@@ -32,7 +54,7 @@ class BookController extends Controller
         $book->available_copies = $validated['total_copies'];
         $book->save();
 
-        return redirect()->route('books.create')
+        return redirect()->route('books.mine')
             ->with('status', __('site.books.created'));
     }
 
@@ -83,5 +105,45 @@ class BookController extends Controller
 
         return redirect()->route('books.edit', $book)
             ->with('status', __('site.books.updated'));
+    }
+
+    public function archive(Book $book): RedirectResponse
+    {
+        Gate::authorize('archive', $book);
+
+        DB::transaction(function () use ($book): void {
+            $lockedBook = Book::query()
+                ->whereKey($book->getKey())
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            Gate::authorize('archive', $lockedBook);
+
+            $lockedBook->archived_at = now();
+            $lockedBook->save();
+        });
+
+        return redirect()->route('books.mine')
+            ->with('status', __('site.books.archived_successfully'));
+    }
+
+    public function unarchive(Book $book): RedirectResponse
+    {
+        Gate::authorize('unarchive', $book);
+
+        DB::transaction(function () use ($book): void {
+            $lockedBook = Book::query()
+                ->whereKey($book->getKey())
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            Gate::authorize('unarchive', $lockedBook);
+
+            $lockedBook->archived_at = null;
+            $lockedBook->save();
+        });
+
+        return redirect()->route('books.mine')
+            ->with('status', __('site.books.unarchived_successfully'));
     }
 }

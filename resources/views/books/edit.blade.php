@@ -7,6 +7,9 @@
         <section class="mx-auto w-full max-w-2xl rounded-lg bg-white p-6 shadow-sm sm:p-8">
             <h1 class="text-3xl font-bold text-navy">{{ __('site.books.edit') }}</h1>
             <p class="mt-3 text-gray-700">{{ __('site.books.edit_intro') }}</p>
+            <a href="{{ route('books.mine') }}" class="mt-4 inline-block font-semibold text-navy hover:text-navy-dark">
+                {{ __('site.books.back_to_mine') }}
+            </a>
 
             @if (session('status'))
                 <p class="mt-4 text-sm text-success" role="status">{{ session('status') }}</p>
