@@ -39,6 +39,9 @@ return [
         'archived_successfully' => 'تمت أرشفة الكتاب بنجاح.',
         'unarchived_successfully' => 'تم إلغاء أرشفة الكتاب بنجاح.',
         'back_to_mine' => 'العودة إلى كتبي',
+        'view' => 'عرض',
+        'details' => 'تفاصيل الكتاب',
+        'owner' => 'المالك',
     ],
     'registration' => [
         'title' => 'إنشاء حساب',

@@ -39,6 +39,9 @@ return [
         'archived_successfully' => 'The book was archived successfully.',
         'unarchived_successfully' => 'The book was unarchived successfully.',
         'back_to_mine' => 'Back to My Books',
+        'view' => 'View',
+        'details' => 'Book Details',
+        'owner' => 'Owner',
     ],
     'registration' => [
         'title' => 'Create an account',

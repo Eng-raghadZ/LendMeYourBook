@@ -58,6 +58,15 @@ class BookController extends Controller
             ->with('status', __('site.books.created'));
     }
 
+    public function show(Book $book): View
+    {
+        Gate::authorize('view', $book);
+
+        $book->load(['category', 'owner:id,username']);
+
+        return view('books.show', compact('book'));
+    }
+
     public function edit(Book $book): View
     {
         Gate::authorize('update', $book);

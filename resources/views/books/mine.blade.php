@@ -30,6 +30,11 @@
                                 <p class="mt-2 text-sm text-gray-600">{{ app()->getLocale() === 'ar' ? $book->category->name_ar : $book->category->name_en }}</p>
                             </div>
                             <div class="flex flex-wrap gap-3">
+                                @can('view', $book)
+                                    <a href="{{ route('books.show', $book) }}" class="rounded-md border border-navy px-4 py-2 font-semibold text-navy hover:bg-beige" data-action="view">
+                                        {{ __('site.books.view') }}
+                                    </a>
+                                @endcan
                                 @can('update', $book)
                                     <a href="{{ route('books.edit', $book) }}" class="rounded-md border border-navy px-4 py-2 font-semibold text-navy hover:bg-beige" data-action="edit">
                                         {{ __('site.books.edit_action') }}
@@ -81,6 +86,11 @@
                                 <p class="mt-2 text-sm text-gray-600">{{ app()->getLocale() === 'ar' ? $book->category->name_ar : $book->category->name_en }}</p>
                             </div>
                             <div class="flex flex-wrap gap-3">
+                                @can('view', $book)
+                                    <a href="{{ route('books.show', $book) }}" class="rounded-md border border-navy px-4 py-2 font-semibold text-navy hover:bg-beige" data-action="view">
+                                        {{ __('site.books.view') }}
+                                    </a>
+                                @endcan
                                 @can('update', $book)
                                     <a href="{{ route('books.edit', $book) }}" class="rounded-md border border-navy px-4 py-2 font-semibold text-navy hover:bg-beige" data-action="edit">{{ __('site.books.edit_action') }}</a>
                                 @endcan
